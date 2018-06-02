@@ -8,5 +8,6 @@ module.exports = {
       "arrow-parens": 0,
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "class-methods-use-this": 0,
+      "no-plusplus": 0
     }
 };

@@ -32,3 +32,24 @@
   width: 370px;
   height: 700px;
 }
+
+.show-one-pic img{
+  width: 400px;
+  height: 300px;
+}
+
+.show-one-pic, .show-some-pic {
+  width: 840px;
+  height: auto;
+}
+
+.show-some-pic img {
+  width: 200px;
+  height: 150px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.hide {
+  display: none;
+}
