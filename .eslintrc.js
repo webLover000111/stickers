@@ -10,5 +10,7 @@ module.exports = {
       "class-methods-use-this": 0,
       "no-plusplus": 0,
       "no-console": 0,
+      "no-alert": 0,
+      "react/forbid-prop-types": 0,
     }
 };

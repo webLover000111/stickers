@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Webcam from 'react-webcam';
 import { Upload, Button, Icon } from 'antd';
+import oAxios from '../config/Axios';
 
 export default class UploadPic extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export default class UploadPic extends Component {
       imageOne: '',
       showOne: false,
       showSome: false,
+      resultImg: '',
     };
   }
 
@@ -46,48 +48,33 @@ export default class UploadPic extends Component {
     }
   }
 
-  uploadOne() {
-
+  async uploadOne() {
+    if (this.state.showOne) {
+      const { imageOne } = this.state;
+      const data = {
+        imageOne,
+      };
+      const res = await oAxios.post('/create_img', data)
+        .then(res => res.data)
+        .catche(err => console.log(err));
+      if (res) {
+        if (res.code === 0) {
+          const { resultImg } = res;
+          this.setState({
+            resultImg,
+          });
+        } else {
+          alert(res.msg);
+        }
+      } else {
+        alert('计算失败，建议重新尝试！');
+      }
+    }
   }
 
   uploadSome() {
 
   }
-
-
-  /* openCamera() {
-    const canvas = document.getElementById('canvas');
-    const context = canvas.getContext('2d');
-    if (navigator.mediaDevices.getUserMedia) {
-      const p = navigator.mediaDevices.getUserMedia({
-        video: {
-          width: { min: 370, ideal: 700 },
-        },
-      });
-      p.then(mediaStream => {
-        const video = document.querySelector('video');
-        video.src = window.URL.createObjectURL(mediaStream);
-        video.onloadedmetadata = () => {
-          // Do something with the video here.
-          video.play();
-        };
-      });
-      p.catch(err => { console.log(err.name); });
-    } else if (navigator.mediaDevices.webkitGetUserMedia) {
-      const p = navigator.mediaDevices.webkitGetUserMedia({
-        video: true,
-      });
-      p.then(mediaStream => {
-        const video = document.querySelector('video');
-        video.src = window.URL.createObjectURL(mediaStream);
-        video.onloadedmetadata = () => {
-          // Do something with the video here.
-          video.play();
-        };
-      });
-      p.catch(err => { console.log(err.name); });
-    } */
-  /* } */
 
   render() {
     const props = {
@@ -140,7 +127,7 @@ export default class UploadPic extends Component {
           <img src={this.state.imageOne} alt="" />
           <br />
           <Button
-            onClick={this.UploadSome}
+            onClick={this.uploadOne}
           >
             上传？
           </Button>
@@ -155,10 +142,15 @@ export default class UploadPic extends Component {
           {images}
           <br />
           <Button
-            onClick={this.UploadSome}
+            onClick={this.uploadSome}
           >
             上传？
           </Button>
+        </div>
+        <div
+          className="show-result"
+        >
+          <img src={this.state.resultImg} alt="" />
         </div>
       </div>
     );

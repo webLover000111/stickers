@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import oAxios from '../config/Axios';
 
@@ -27,7 +28,17 @@ class Login extends Component {
     const res = await oAxios.post('/login', data)
       .then(res => res.data)
       .catch(err => console.log(err));
-    console.log(res);
+    if (res) {
+      if (res.code === 0) {
+        console.log(res);
+        console.log(document.cookie);
+        window.location.hash = '/main';
+      } else {
+        alert(res.msg);
+      }
+    } else {
+      alert('出现错误，建议重新登陆');
+    }
   }
 
   handleUsername(e) {
@@ -99,7 +110,11 @@ class Login extends Component {
               登录
             </Button>
             <span>没有账号？</span>
-            <a href="./#">去注册</a>
+            <NavLink
+            to='/logup'
+            >
+              去注册
+            </NavLink>
           </FormItem>
         </Form>
       </div>
