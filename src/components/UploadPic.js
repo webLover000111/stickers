@@ -17,6 +17,7 @@ export default class UploadPic extends Component {
       showOne: false,
       showSome: false,
       resultImg: '',
+      resultGif: '',
     };
   }
 
@@ -34,7 +35,7 @@ export default class UploadPic extends Component {
   }
 
   captureSome() {
-    const times = 16;
+    const times = 12;
     const images = [];
     for (let i = 0; i < times; i++) {
       setTimeout(() => {
@@ -44,7 +45,7 @@ export default class UploadPic extends Component {
           showSome: true,
           showOne: false,
         });
-      }, 300 * i);
+      }, 320 * i);
     }
   }
 
@@ -56,7 +57,7 @@ export default class UploadPic extends Component {
       };
       const res = await oAxios.post('/create_img', data)
         .then(res => res.data)
-        .catche(err => console.log(err));
+        .catch(err => console.log(err));
       if (res) {
         if (res.code === 0) {
           const { resultImg } = res;
@@ -72,8 +73,28 @@ export default class UploadPic extends Component {
     }
   }
 
-  uploadSome() {
-
+  async uploadSome() {
+    if (this.state.showSome) {
+      const { imageArr } = this.state;
+      const data = {
+        imageArr,
+      };
+      const res = await oAxios.post('/create_gif', data)
+        .then(response => response.data)
+        .catch(err => console.log(err));
+      if (res) {
+        if (res.code === 0) {
+          const { resultGif } = res;
+          this.setState({
+            resultGif,
+          });
+        } else {
+          alert(res.msg);
+        }
+      } else {
+        alert('计算失败，建议重新尝试！');
+      }
+    }
   }
 
   render() {
@@ -99,16 +120,19 @@ export default class UploadPic extends Component {
         <div className="photo">
           <Button
             title="生成加了贴图的图片"
+            className="btn"
             onClick={this.captureOne}
           >
             拍照
           </Button>
           <Button
             title="连拍生成gif动图"
+            className="btn"
             onClick={this.captureSome}
           >
             连拍
           </Button>
+          <br />
           <Webcam
             audio={false}
             height={300}
@@ -127,9 +151,16 @@ export default class UploadPic extends Component {
           <img src={this.state.imageOne} alt="" />
           <br />
           <Button
+            className="result-btn-left"
             onClick={this.uploadOne}
           >
-            上传？
+            是否上传
+          </Button>
+          <Button
+            className="result-btn-right"
+            onClick={this.downloadOne}
+          >
+            点击下载
           </Button>
         </div>
         <div
@@ -142,15 +173,27 @@ export default class UploadPic extends Component {
           {images}
           <br />
           <Button
+            className="result-btn-left"
             onClick={this.uploadSome}
           >
-            上传？
+            是否上传
+          </Button>
+          <Button
+            className="result-btn-right"
+            onClick={this.downloadSome}
+          >
+            点击下载
           </Button>
         </div>
         <div
-          className="show-result"
+          className="show-result-img"
         >
           <img src={this.state.resultImg} alt="" />
+        </div>
+        <div
+          className="show-result-gif"
+        >
+          <img src={this.state.resultGif} alt="" />
         </div>
       </div>
     );

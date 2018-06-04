@@ -41,6 +41,7 @@
 .show-one-pic, .show-some-pic {
   width: 840px;
   height: auto;
+  margin: 10px auto;
 }
 
 .show-some-pic img {
@@ -52,4 +53,37 @@
 
 .hide {
   display: none;
+}
+
+.main {
+  width: 960px;
+  height: auto;
+  margin: 20px auto;
+}
+.uploadPic {
+  width: 960px;
+  height: auto;
+  text-align: center;
+}
+
+.upload {
+  display : block;
+  margin: 0 auto 10px;
+}
+
+.btn {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.btn:nth-child(1) {
+  margin-right: 10px;
+}
+
+.result-btn-left {
+  margin-right: 10px;
+}
+
+.result-btn-right, .result-btn-left {
+  display: inline-block;
+  margin-top: 10px;
 }

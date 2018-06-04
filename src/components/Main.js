@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Show from './Show';
 import UploadPic from './UploadPic';
 
 export default class Main extends Component {
@@ -10,8 +9,7 @@ export default class Main extends Component {
 
   render() {
     return (
-      <div>
-        <show />
+      <div className="main">
         <UploadPic />
       </div>
     )
