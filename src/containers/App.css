@@ -117,3 +117,14 @@
   display: inline-block;
   margin-top: 10px;
 }
+
+.star{
+  width: 280px;
+  height: 350px;
+  object-fit: fill;
+  margin-right: 10px;
+}
+.result-img {
+  width: 400px;
+  height: 350px;
+}

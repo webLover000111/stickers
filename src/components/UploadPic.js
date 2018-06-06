@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Webcam from 'react-webcam';
-import { Upload, Button, Icon, Spin } from 'antd';
+import { /* Upload, */ Button, /* Icon, */ Spin } from 'antd';
 import oAxios from '../config/Axios';
 
 export default class UploadPic extends Component {
@@ -23,12 +23,13 @@ export default class UploadPic extends Component {
       showSome: false,
       resultImg: '',
       resultGif: '',
-      localUploadStatus: false,
+      /* localUploadStatus: false, */
       hasResult: false,
       showBtn: false,
       downloadStatus: true, // 不能点击
       uploadStatus: false, // 可点击
       otherBtnStatus: false,
+      star: '',
     };
   }
 
@@ -79,16 +80,17 @@ export default class UploadPic extends Component {
         imageOne,
       };
       const res = await oAxios.post('/create_img', data)
-        .then(res => res.data)
+        .then(response => response.data)
         .catch(err => console.log(err));
       if (res) {
         if (res.code === 0) {
-          const { resultImg } = res;
+          const { resultImg, star } = res;
           this.setState({
             resultImg,
             hasResult: false,
             downloadStatus: false,
             otherBtnStatus: false,
+            star,
           });
         } else if (res.code === 401) {
           alert(res.msg);
@@ -166,7 +168,7 @@ export default class UploadPic extends Component {
 
   }
   render() {
-    const props = {
+    /* const props = {
       action: '',
       listType: 'picture',
       multiple: false,
@@ -177,13 +179,13 @@ export default class UploadPic extends Component {
       onChange: this.handleLocalUploadChange,
       onRemove: this.handleLocalUploadRemove,
       disabled: this.state.localUploadStatus,
-    };
+    }; */
     const images = this.state.imageArr.map((item, index) => (
       <img src={item} key={index.toString()} alt="" />
     ));
     return (
       <div className="uploadPic">
-        <Upload
+        {/* <Upload
           className="upload"
           {...props}
         >
@@ -193,7 +195,7 @@ export default class UploadPic extends Component {
           >
             <Icon type="upload" /> 本地上传
           </Button>
-        </Upload>
+        </Upload> */}
         <div className="photo">
           <Button
             title="生成加了贴图的图片"
@@ -285,12 +287,21 @@ export default class UploadPic extends Component {
         </div>
 
         <div
-          className="show-result-img"
+          className={
+            this.state.downloadStatus
+            ? 'hide'
+            : 'show-result-img'
+          }
         >
-          <img src={this.state.resultImg} alt="" />
+          <img src={this.state.star} alt="" className="star" />
+          <img src={this.state.resultImg} alt="" className="result-img" />
         </div>
         <div
-          className="show-result-gif"
+          className={
+            this.state.downloadStatus
+            ? 'hide'
+            : 'show-result-gif'
+          }
         >
           <img src={this.state.resultGif} alt="" />
         </div>
