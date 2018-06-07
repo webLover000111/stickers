@@ -50,12 +50,14 @@ class Logup extends Component {
   }
 
   async handleLogup() {
-    const { username, email, password, passwordAgain } = this.state;
+    const {
+      username, email, password, passwordAgain,
+    } = this.state;
     if (!username.length && !email.lengtth && !password.length && !passwordAgain.length) {
       alert('请把表单填写完整!');
       return;
     }
-    if (password != passwordAgain) {
+    if (password !== passwordAgain) {
       alert('前后两次输入密码不一致!');
       return;
     }
@@ -63,9 +65,9 @@ class Logup extends Component {
       username,
       email,
       password,
-    }
+    };
     const res = await oAxios.post('/logup', data)
-      .then(res => res.data)
+      .then(response => response.data)
       .catch(err => console.log(err));
     if (res) {
       if (res.code === 0) {

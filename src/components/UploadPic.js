@@ -34,6 +34,8 @@ export default class UploadPic extends Component {
       star: '',
       showImgResult: false,
       showGifResult: false,
+      downloadSrc: '',
+      downloadName: '',
     };
   }
 
@@ -92,7 +94,7 @@ export default class UploadPic extends Component {
         .catch(err => console.log(err));
       if (res) {
         if (res.code === 0) {
-          const { resultImg, star } = res;
+          const { resultImg, star, imgName } = res;
           this.setState({
             resultImg,
             hasResult: false,
@@ -100,6 +102,8 @@ export default class UploadPic extends Component {
             otherBtnStatus: false,
             showImgResult: true,
             showGifResult: false,
+            downloadName: imgName,
+            downloadSrc: `http://localhost:3001/download/${imgName}`,
             star,
           });
         } else if (res.code === 401) {
@@ -137,7 +141,7 @@ export default class UploadPic extends Component {
         .catch(err => console.log(err));
       if (res) {
         if (res.code === 0) {
-          const { resultGif } = res;
+          const { resultGif, gifName } = res;
           this.setState({
             resultGif,
             hasResult: false,
@@ -145,6 +149,9 @@ export default class UploadPic extends Component {
             otherBtnStatus: false,
             showImgResult: false,
             showGifResult: true,
+            downloadName: gifName,
+            downloadSrc: `http://localhost:3001/download/${gifName}`,
+
           });
         } else if (res.code === 401) {
           alert(res.msg);
@@ -177,10 +184,12 @@ export default class UploadPic extends Component {
   }
 
   localUploadStatus() {
-
+    const oA = document.getElementById('download');
+    oA.click();
   }
   handleDownloadImg() {
-
+    const oA = document.getElementById('download');
+    oA.click();
   }
 
   handleDownloadGif() {
@@ -264,12 +273,17 @@ export default class UploadPic extends Component {
             disabled={this.state.downloadStatus}
             onClick={
               this.state.showSome
-              ? this.downloadSome
-              : this.downloadOne
+              ? this.handleDownloadGif
+              : this.handleDownloadImg
             }
           >
             点击下载
           </Button>
+          <a
+            href={this.state.downloadSrc}
+            download={this.state.downloadName}
+            id="download"
+          />
         </div>
 
         <div
@@ -311,6 +325,7 @@ export default class UploadPic extends Component {
             ? 'hide'
             : 'show-result-img'
           }
+          id="resultImg"
         >
           <img src={this.state.star} alt="" className="star" />
           <img src={this.state.resultImg} alt="" className="result-img" />

@@ -12,5 +12,6 @@ module.exports = {
       "no-console": 0,
       "no-alert": 0,
       "react/forbid-prop-types": 0,
+      "jsx-a11y/anchor-has-content": 0,
     }
 };

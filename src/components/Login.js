@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import oAxios from '../config/Axios';
 
 const FormItem = Form.Item;
 class Login extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -20,18 +18,15 @@ class Login extends Component {
 
   async handleLogin() {
     const { username, password } = this.state;
-    console.log(this.state.password)
     const data = {
       username,
       password,
     };
     const res = await oAxios.post('/login', data)
-      .then(res => res.data)
+      .then(response => response.data)
       .catch(err => console.log(err));
     if (res) {
       if (res.code === 0) {
-        console.log(res);
-        console.log(document.cookie);
         window.location.hash = '/main';
       } else {
         alert(res.msg);
@@ -111,7 +106,7 @@ class Login extends Component {
             </Button>
             <span>没有账号？</span>
             <NavLink
-            to='/logup'
+              to="/logup"
             >
               去注册
             </NavLink>
