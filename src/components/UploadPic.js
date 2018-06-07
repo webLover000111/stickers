@@ -15,6 +15,8 @@ export default class UploadPic extends Component {
     this.handleLocalUploadChange = this.handleLocalUploadChange.bind(this);
     this.handleLocalUploadRemove = this.handleLocalUploadRemove.bind(this);
     this.localUploadStatus = this.localUploadStatus.bind(this);
+    this.handleDownloadImg = this.handleDownloadImg.bind(this);
+    this.handleDownloadGif = this.handleDownloadGif.bind(this);
 
     this.state = {
       imageArr: [],
@@ -30,6 +32,8 @@ export default class UploadPic extends Component {
       uploadStatus: false, // 可点击
       otherBtnStatus: false,
       star: '',
+      showImgResult: false,
+      showGifResult: false,
     };
   }
 
@@ -46,6 +50,8 @@ export default class UploadPic extends Component {
       showBtn: true,
       uploadStatus: false,
       downloadStatus: true,
+      showImgResult: false,
+      showGifResult: false,
     });
   }
 
@@ -62,6 +68,8 @@ export default class UploadPic extends Component {
           showBtn: true,
           uploadStatus: false,
           downloadStatus: true,
+          showImgResult: false,
+          showGifResult: false,
         });
       }, 320 * i);
     }
@@ -90,6 +98,8 @@ export default class UploadPic extends Component {
             hasResult: false,
             downloadStatus: false,
             otherBtnStatus: false,
+            showImgResult: true,
+            showGifResult: false,
             star,
           });
         } else if (res.code === 401) {
@@ -133,6 +143,8 @@ export default class UploadPic extends Component {
             hasResult: false,
             downloadStatus: false,
             otherBtnStatus: false,
+            showImgResult: false,
+            showGifResult: true,
           });
         } else if (res.code === 401) {
           alert(res.msg);
@@ -165,6 +177,13 @@ export default class UploadPic extends Component {
   }
 
   localUploadStatus() {
+
+  }
+  handleDownloadImg() {
+
+  }
+
+  handleDownloadGif() {
 
   }
   render() {
@@ -288,7 +307,7 @@ export default class UploadPic extends Component {
 
         <div
           className={
-            this.state.downloadStatus
+            (!this.state.showImgResult)
             ? 'hide'
             : 'show-result-img'
           }
@@ -298,7 +317,7 @@ export default class UploadPic extends Component {
         </div>
         <div
           className={
-            this.state.downloadStatus
+            (!this.state.showGifResult)
             ? 'hide'
             : 'show-result-gif'
           }
